@@ -205,3 +205,9 @@ function! OpenURL()
 endfunction
 map <Leader>w :call OpenURL()<CR>
 
+augroup filetype
+  autocmd BufNewFile,BufRead *.cs,*.course,*.flo,*.page set filetype=xml
+augroup END
+
+"au FileType xml exe ":silent 1,$!xmllint --format --recover - 2>/dev/null"
+set fileencodings=ucs-bom,utf-8,default,cp1250,latin2,latin1

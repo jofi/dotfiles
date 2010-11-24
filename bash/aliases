@@ -9,6 +9,10 @@ function railsapp {
   rails $appname -m http://github.com/ryanb/rails-templates/raw/master/$template.rb $@
 }
 
+function authme() {
+        ssh $1 'cat >>.ssh/authorized_keys' < ~/.ssh/id_rsa.pub
+}
+
 # misc
 alias reload='. ~/.bash_profile'
 # cd
