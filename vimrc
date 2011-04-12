@@ -193,12 +193,13 @@ set tags=./tags;
 let g:fuf_splitPathMatching=1
 
 " Open URL
-command -bar -nargs=1 OpenURL :!open <args>
+"command -bar -nargs=1 OpenURL :!open <args>
+command -bar -nargs=1 OpenURL :!firefox <args>
 function! OpenURL()
   let s:uri = matchstr(getline("."), '[a-z]*:\/\/[^ >,;:]*')
   echo s:uri
   if s:uri != ""
-	  exec "!open \"" . s:uri . "\""
+	  exec "!firefox \"" . s:uri . "\""
   else
 	  echo "No URI found in line."
   endif
@@ -211,3 +212,7 @@ augroup END
 
 "au FileType xml exe ":silent 1,$!xmllint --format --recover - 2>/dev/null"
 set fileencodings=ucs-bom,utf-8,default,cp1250,latin2,latin1
+
+nmap  gg=G
+nmap  :NERDTreeToggle
+nmap  :FufFile **/
