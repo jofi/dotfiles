@@ -213,6 +213,6 @@ augroup END
 "au FileType xml exe ":silent 1,$!xmllint --format --recover - 2>/dev/null"
 set fileencodings=ucs-bom,utf-8,default,cp1250,latin2,latin1
 
-nmap  gg=G
-nmap  :NERDTreeToggle
-nmap  :FufFile **/
+nmap <C-F> gg=G
+nmap <C-E> :NERDTreeToggle<CR>
+nmap <C-R> :FufFile **/<CR>
