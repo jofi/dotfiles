@@ -213,6 +213,15 @@ augroup END
 "au FileType xml exe ":silent 1,$!xmllint --format --recover - 2>/dev/null"
 set fileencodings=ucs-bom,utf-8,default,cp1250,latin2,latin1
 
+" CTRL-F format file
 nmap <C-F> gg=G
+" CTRL-E file expolrer
 nmap <C-E> :NERDTreeToggle<CR>
+" CTRL-R fuzzy file explorer
 nmap <C-R> :FufFile **/<CR>
+
+" Buffers - explore/next/previous: Alt-F12, F12, Shift-F12.
+nnoremap <silent> <M-F12> :BufExplorer<CR>
+nnoremap <silent> <F12> :bn<CR>
+nnoremap <silent> <S-F12> :bp<CR>
+
