@@ -1,3 +1,3 @@
 [submodule "vim"]
 	path = vim
-	url = git@github.com:jofi/janus.git
+	url = https://jofi@github.com/jofi/janus.git
