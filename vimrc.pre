@@ -1,0 +1,15 @@
+"set fileencodings=ucs-bom,utf-8,default,cp1250,latin2,latin1
+
+" CTRL-F format file
+nmap <C-F> gg=G
+
+" CTRL-E file expolrer
+nmap <C-E> :NERDTreeToggle<CR>
+
+" CTRL-R fuzzy file explorer
+nmap <C-R> :CommandT<CR>
+
+" CTRL-T tabs (buffers)
+nnoremap <silent> <C-T> :MiniBufExplorer<CR>
+
+color railscasts2
