@@ -12,4 +12,12 @@ nmap <C-R> :CommandT<CR>
 " CTRL-T tabs (buffers)
 nnoremap <silent> <C-T> :MiniBufExplorer<CR>
 
+map <leader>ev :edit ~/.gvimrc.local<CR>
+map <leader>sv :source ~/.gvimrc<CR>
+
+if &term == 'linux' " or whatever your terminal is
+  " Reseting term (internal in vim) to xterm-color which is good for CommandT
+  set term=xterm-color
+endif
+
 color railscasts2
