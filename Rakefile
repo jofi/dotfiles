@@ -49,9 +49,9 @@ task :install do
   end
 end
 
-desc "Install vim dotfiles"
-task :install_vim_dotfiles do
+desc "Install janus (vim dotfiles)"
+task :install_janus do
   system "cd vim && rake"
 end
 
-task :default => ["install", "install_vim_dotfiles"]
+task :default => ["install", "install_janus"]
