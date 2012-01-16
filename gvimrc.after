@@ -1,29 +1,12 @@
-"set fileencodings=ucs-bom,utf-8,default,cp1250,latin2,latin1
-
-" CTRL-F format file
-nmap <lader>ff gg=G
-
-" CTRL-E file expolrer
-"nmap <C-E> :NERDTreeToggle<CR>
-
-" CTRL-R fuzzy file explorer
-"nmap <C-R> :CommandT<CR>
-
 map <silent> <F11> :if exists(":BufExplorer")<Bar>exe "BufExplorer"<Bar>else<Bar>buffers<Bar>endif<CR>
 "nmap <silent> <C-T> :if exists(":BufExplorer")<Bar>exe "BufExplorer"<Bar>else<Bar>buffers<Bar>endif<CR>
 map <C-F4> :bdelete<CR>
 
 map <leader>ve :edit ~/.gvimrc.after<CR>
-map <leader>vs :source ~/.gvimrc<CR>
-
-if &term == 'linux' " or whatever your terminal is
-  " Reseting term (internal in vim) to xterm-color which is good for CommandT
-  set term=xterm-color
-endif
+map <leader>vs :source ~/.gvimrc.after<CR>
 
 color railscasts2
 hi clear LineNr
-
 
 "Inspired by tpope:
 
