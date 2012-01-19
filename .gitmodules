@@ -1,3 +1,9 @@
 [submodule "vim"]
 	path = vim
 	url = git://github.com/carlhuda/janus.git
+[submodule "janus/html5"]
+	path = janus/html5
+	url = git://github.com/othree/html5.vim
+[submodule "janus/html5-syntax"]
+	path = janus/html5-syntax
+	url = git://github.com/othree/html5-syntax.vim

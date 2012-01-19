@@ -35,3 +35,6 @@ nnoremap gb :OpenURL <cfile><CR>
 nnoremap gA :OpenURL http://www.answers.com/<cword><CR>
 nnoremap gG :OpenURL http://www.google.com/search?q=<cword><CR>
 nnoremap gW :OpenURL http://en.wikipedia.org/wiki/Special:Search?search=<cword><CR>
+
+map <C-F> :Ack<space>
+map <C-f> :Ack<space>
