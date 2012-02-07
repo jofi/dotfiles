@@ -5,6 +5,9 @@ map <C-F4> :bdelete<CR>
 map <leader>ve :edit ~/.gvimrc.after<CR>
 map <leader>vs :source ~/.gvimrc.after<CR>
 
+
+map <leader>rm :Rmodel 
+
 color railscasts2
 hi clear LineNr
 

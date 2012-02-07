@@ -7,3 +7,12 @@
 [submodule "janus/html5-syntax"]
 	path = janus/html5-syntax
 	url = git://github.com/othree/html5-syntax.vim
+[submodule "janus/vim-ragtag"]
+	path = janus/vim-ragtag
+	url = git://github.com/tpope/vim-ragtag.git
+[submodule "janus/vim-ruby-doc"]
+	path = janus/vim-ruby-doc
+	url = git://github.com/lucapette/vim-ruby-doc.git
+[submodule "janus/vim-jquery-doc"]
+	path = janus/vim-jquery-doc
+	url = git://github.com/lucapette/vim-jquery-doc.git
