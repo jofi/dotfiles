@@ -41,6 +41,14 @@ task :install do
           exit
         else
           puts "skipping ~/.#{file.sub('.erb', '')}"
+          if file=='bashrc'
+            print %Q{I recommend you to append:
+----------
+if [ -f ~/.bashrc_jofi ]; then source ~/.bashrc_jofi; fi
+----------
+to the end of original '~/.bashrc'
+            }
+          end
         end
       end
     else

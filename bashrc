@@ -1,9 +1,6 @@
-source ~/.bash/aliases
-source ~/.bash/completions
-source ~/.bash/paths
-source ~/.bash/config
+# This is just placeholder if you don't intend to use system's ~/.bashrc
+# Othervise add this the following two lines to the end of original system ~/.bashrc
 
-# use .localrc for settings specific to one system
-if [ -f ~/.localrc ]; then
-  source ~/.localrc
+if [ -f ~/.bashrc_jofi ]; then
+  source ~/.bashrc_jofi
 fi
