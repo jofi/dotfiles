@@ -16,7 +16,7 @@ git_dirty() {
     then
       echo "on %{$fg_bold[green]%}$(git_prompt_info)%{$reset_color%}"
     else
-      echo "on %{$fg_bold[red]%}$(git_prompt_info)%{$reset_color%}"
+      echo "on %{$fg_bold[red]%}$(git_prompt_info)*%{$reset_color%}"
     fi
   fi
 }
@@ -72,7 +72,12 @@ directory_name(){
   echo "%{$fg_bold[cyan]%}%1/%\/%{$reset_color%}"
 }
 
-export PROMPT=$'\n$(rb_prompt) in $(directory_name) $(git_dirty)$(need_push)\n› '
+collapse_pwd() {
+    echo $(pwd | sed -e "s,^$HOME,~,")
+}
+
+#export PROMPT=$'\n$(rb_prompt) in $(collapse_pwd) $(git_dirty)$(need_push)\n› '
+export PROMPT=$'\n%{$fg_bold[magenta]%}%n%{$reset_color%}@%{$fg_bold[yellow]%}%m%{$reset_color%}($(rb_prompt))\$ %{$fg_bold[green]%}$(collapse_pwd)%{$reset_color%} $(git_dirty)$(need_push)\n› '
 set_prompt () {
   export RPROMPT="%{$fg_bold[cyan]%}$(todo)%{$reset_color%}"
 }
