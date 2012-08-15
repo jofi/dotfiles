@@ -1,6 +1,6 @@
 [submodule "vim"]
 	path = vim
-	url = git://github.com/carlhuda/janus.git
+	url = git@github.com:jofi/janus.git
 [submodule "janus/html5"]
 	path = janus/html5
 	url = git://github.com/othree/html5.vim
@@ -19,3 +19,6 @@
 [submodule "janus/vim-less"]
 	path = janus/vim-less
 	url = https://github.com/groenewege/vim-less.git
+[submodule "oh-my-zsh"]
+	path = oh-my-zsh
+	url = git@github.com:jofi/oh-my-zsh.git
