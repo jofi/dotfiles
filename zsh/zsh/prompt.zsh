@@ -23,8 +23,9 @@ git_dirty() {
 
 git_prompt_info () {
  ref=$(/usr/bin/git symbolic-ref HEAD 2>/dev/null) || return
+ commit=$(git rev-parse --short HEAD 2>/dev/null) || return
 # echo "(%{\e[0;33m%}${ref#refs/heads/}%{\e[0m%})"
- echo "${ref#refs/heads/}"
+ echo "${ref#refs/heads/}@${commit}"
 }
 
 unpushed () {
@@ -83,6 +84,9 @@ set_prompt () {
 }
 
 precmd() {
-  title "zsh" "%m" "%55<...<%~"
+  if [ "$DISABLE_AUTO_TITLE" != "true" ]; then
+    title "zsh" "%m" "%55<...<%~"
+  fi
+
   set_prompt
 }
