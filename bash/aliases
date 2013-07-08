@@ -19,10 +19,10 @@ alias reload='. ~/.bash_profile'
 alias ..='cd ..'
 
 # ls
-alias ls="ls -F"
-alias l="ls -lAh"
-alias ll="ls -l"
-alias la='ls -A'
+alias ls="ls -F --color"
+alias l="ls -lAh --color"
+alias ll="ls -l --color"
+alias la='ls -A --color'
 
 # git
 alias gl='git pull'
@@ -35,6 +35,7 @@ alias gb='git branch'
 alias gs='git status'
 alias grm="git status | grep deleted | awk '{print \$3}' | xargs git rm"
 alias changelog='git log `git log -1 --format=%H -- CHANGELOG*`..; cat CHANGELOG*'
+alias glog='git log --graph --pretty=format:'\''%Cred%h%Creset %an: %s - %Creset %C(yellow)%d%Creset %Cgreen(%cr)%Creset'\'' --abbrev-commit --date=relative'
 
 # rails
 alias sc='script/console'
