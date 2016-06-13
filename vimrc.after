@@ -38,3 +38,35 @@ nnoremap gW :OpenURL http://en.wikipedia.org/wiki/Special:Search?search=<cword><
 
 map <C-F> :Ack<space>
 map <C-f> :Ack<space>
+map <leader>rr :setfiletype ruby<CR>
+map <C-f>c :Ack<space> ../commons<Left><Left><Left><Left><Left><Left><Left><Left><Left><Left><Left>
+
+let g:ruby_debugger_debug_mode = 1
+map <F7>  :call g:RubyDebugger.step()<CR>
+map <F5>  :call g:RubyDebugger.next()<CR>
+map <F8>  :call g:RubyDebugger.continue()<CR>
+" let g:ctrlp_working_path_mode = ''
+" let g:ctrlp_follow_symlinks = 1
+
+" xmpfilter bindings
+autocmd FileType ruby nmap <buffer> <Leader>m <Plug>(xmpfilter-mark)
+autocmd FileType ruby xmap <buffer> <Leader>m <Plug>(xmpfilter-mark)
+autocmd FileType ruby imap <buffer> <Leader>m <Plug>(xmpfilter-mark)
+
+autocmd FileType ruby nmap <buffer> <Leader>r <Plug>(xmpfilter-run)
+autocmd FileType ruby xmap <buffer> <Leader>r <Plug>(xmpfilter-run)
+autocmd FileType ruby imap <buffer> <Leader>r <Plug>(xmpfilter-run)
+
+autocmd FileType vimwiki nnoremap <Leader>c :.!showoff add -t code<CR>
+autocmd FileType vimwiki nnoremap <Leader>bb :.!showoff add -t bullets<CR>
+autocmd FileType vimwiki nnoremap <Leader>5 :.!showoff add -t smbullets<CR>
+autocmd FileType vimwiki nnoremap <Leader>C :.!showoff add -t commandline<CR>
+autocmd FileType vimwiki nnoremap <Leader>i :.!showoff add -t full-page<CR>
+autocmd FileType vimwiki nnoremap <Leader>s :.!showoff add<CR>
+autocmd FileType vimwiki imap <Leader>c <ESC><Leader>c
+autocmd FileType vimwiki imap <Leader>b <ESC><Leader>b
+autocmd FileType vimwiki imap <Leader>5 <ESC><Leader>5
+autocmd FileType vimwiki imap <Leader>i <ESC><Leader>i
+autocmd FileType vimwiki imap <Leader>C <ESC><Leader>C
+autocmd FileType vimwiki imap <Leader>s <ESC><Leader>s
+

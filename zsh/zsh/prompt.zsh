@@ -41,6 +41,11 @@ need_push () {
   fi
 }
 
+webafis_customization () {
+  client=$(cat ../commons/config.rb 2> /dev/null | grep WEBAFIS_CONFIG |awk -F: {'print $NF'})
+  echo $client
+}
+
 rb_prompt(){
   if $(which rvm &> /dev/null)
   then
@@ -80,7 +85,7 @@ collapse_pwd() {
 #export PROMPT=$'\n$(rb_prompt) in $(collapse_pwd) $(git_dirty)$(need_push)\n› '
 export PROMPT=$'\n%{$fg_bold[magenta]%}%n%{$reset_color%}@%{$fg_bold[yellow]%}%m%{$reset_color%}($(rb_prompt))\$ %{$fg_bold[green]%}$(collapse_pwd)%{$reset_color%} $(git_dirty)$(need_push)\n› '
 set_prompt () {
-  export RPROMPT="%{$fg_bold[cyan]%}$(todo)%{$reset_color%}"
+  export RPROMPT="%{$fg_bold[cyan]%}$(webafis_customization) $(todo)%{$reset_color%}"
 }
 
 precmd() {

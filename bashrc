@@ -4,3 +4,5 @@
 if [ -f ~/.bashrc_jofi ]; then
   source ~/.bashrc_jofi
 fi
+
+PATH=$PATH:$HOME/.rvm/bin # Add RVM to PATH for scripting

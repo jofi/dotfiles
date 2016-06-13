@@ -1,10 +1,11 @@
---- 
-:verbose: true
-gem: --no-ri --no-rdoc --no-user-install
-:update_sources: true
-:sources: 
+---
+:backtrace: false
+:benchmark: false
+:bulk_threshold: 1000
+:sources:
 - http://gems.rubyforge.org
 - http://gems.github.com
-:backtrace: false
-:bulk_threshold: 1000
-:benchmark: false
+- http://rubygems.innovatrics.inn:8808/
+:update_sources: true
+:verbose: true
+gem: --no-ri --no-rdoc --no-user-install

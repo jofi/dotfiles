@@ -1,2 +1,2 @@
 #compdef ws
-_files -W $PROJECTS -/
+_files -W $WORKSPACE -/
