@@ -1,0 +1,8 @@
+# ~/.tmuxinator/inno_exception_reporter.yml
+# you can make as many tabs as you wish...
+
+name: rubygems
+root: ~/workspace/rubygems
+windows:
+  - editor: cd inno_exception_reporter && vim
+  - shell:

@@ -1,0 +1,21 @@
+# ~/.tmuxinator/inno_exception_reporter.yml
+# you can make as many tabs as you wish...
+
+name: perftest
+root: /home/jofi/workspace/eafis/eafis3-perftest-client
+windows:
+  - shell: #empty, will just run plain bash
+  - dist: cd dist
+  - mercury: ssh -t afistest2@mercury 'cd ~/jofi/afismq-testsuite; bash'
+  - clients:
+      layout: even-horizontal
+      panes:
+        - ssh -t vagrant@192.168.0.44 'cd ~/perftest; bash'
+        - ssh -t vagrant@192.168.0.160 'cd ~/perftest; bash'
+        - ssh -t vagrant@192.168.0.178 'cd ~/perftest; bash'
+  - servers:
+      layout: even-horizontal
+      panes:
+        - ssh vagrant@192.168.0.145
+        - ssh vagrant@192.168.0.24
+        - ssh vagrant@192.168.0.85
