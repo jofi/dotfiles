@@ -17,14 +17,6 @@ export PRODUCTS=$WORKSPACE/_products
 ## load every completion after autocomplete loads
 #for config_file ($ZSH/**/completion.sh) source $config_file
 #
-## use .localrc for SUPER SECRET CRAP that you don't
-## want in your public, versioned repo.
-## if [[ (-a ~/.localrc) && ($LOCALRC != loaded) ]]
-if [[ -a ~/.localrc ]]
-then
-  source ~/.localrc
-fi
-
 #ZSH_THEME="robbyrussell"
 ZSH_THEME="jofi"
 
@@ -53,3 +45,12 @@ DISABLE_AUTO_UPDATE="true"
 plugins=(git git_jofi system_jofi)
 
 source $ZSH/oh-my-zsh.sh
+
+## use .localrc for SUPER SECRET CRAP that you don't
+## want in your public, versioned repo.
+## if [[ (-a ~/.localrc) && ($LOCALRC != loaded) ]]
+if [[ -a ~/.localrc ]]
+then
+  source ~/.localrc
+fi
+
