@@ -1,4 +1,44 @@
-#This is an example of how coul a .localrc look like
+#This is an example of how should a .localrc look like
+#
+#Aliases need to be called always, otherwise they dont work within tmux
+alias be='bundle exec'
+alias wsetup='be rake application:setup; migrate'
+alias applicants='be rake import:list_applicants'
+alias gloglog='git log --graph --pretty=format:'\''%Cred%h%Creset %an: %s - %Creset %C(yellow)%d%Creset %Cgreen(%ad)%Creset'\'' --abbrev-commit --date=short'
+alias grs='git remote show origin'
+alias gclean='git reset --hard HEAD; git clean -d -f'
+
+# Docker VMs
+alias dev=ubuntu-dev
+function ubuntu-dev {
+  id=$(uuidgen | cut -c 1-4)
+    name=dev-$USER-$id
+    docker run -ti --rm \
+    --name $name --hostname $name \
+    -v "$HOME/:$HOME/" \
+    -v "$HOME/:/home/dev/" \
+    -v "/var/run/docker.sock:/var/run/docker.sock" \
+    -w $PWD -u dev \
+    local/ubuntu-dev "$@"
+}
+
+function centos7-dev {
+  id=$(uuidgen | cut -c 1-4)
+    name=dev-$USER-$id
+    docker run -ti --rm \
+    --name $name --hostname $name \
+    -v "$HOME/:$HOME/" \
+    -v "$HOME/:/home/dev/" \
+    -v "/var/run/docker.sock:/var/run/docker.sock" \
+    -w $PWD -u dev \
+    local/centos7-dev "$@"
+}
+
+# Docker overrides
+if [[ -a /.dockerenv  ]]; then
+  export PATH=$HOME/.linuxbrew/bin:$PATH
+fi
+
 if [ "$LOCALRC" = "loaded" ]
 then
   echo 'No need to load .localrc - already loaded'
@@ -7,13 +47,6 @@ else
   export LOCALRC='loaded'
 
   export NLS_LANG=AMERICAN_AMERICA.UTF8
-
-  alias be='bundle exec'
-  alias wsetup='be rake application:setup; migrate'
-  alias applicants='be rake import:list_applicants'
-  alias gloglog='git log --graph --pretty=format:'\''%Cred%h%Creset %an: %s - %Creset %C(yellow)%d%Creset %Cgreen(%ad)%Creset'\'' --abbrev-commit --date=short'
-  alias grs='git remote show origin'
-  alias gclean='git reset --hard HEAD; git clean -d -f'
 
   # Webafis import section
   function applicant() {

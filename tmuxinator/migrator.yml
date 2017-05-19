@@ -31,7 +31,8 @@ root: ~/workspace/migrators
 # post: tmux -CC attach -t migrator
 
 windows:
-  - editor:
+  - inno_dispatch: cd inno_dispatch
+  - ksa:
       layout: even-horizontal
       # Synchronize all panes of this window, can be enabled before or after the pane commands run.
       # 'before' represents legacy functionality and will be deprecated in a future release, in favour of 'after'
@@ -39,3 +40,11 @@ windows:
       panes:
         - cd ksa_nic_migrator && vim
         - cd ksa_nic_migrator
+  - inafis:
+      layout: even-horizontal
+      # Synchronize all panes of this window, can be enabled before or after the pane commands run.
+      # 'before' represents legacy functionality and will be deprecated in a future release, in favour of 'after'
+      # synchronize: after
+      panes:
+        - cd bmw_indonesia_inafis_migrator && vim
+        - cd bmw_indonesia_inafis_migrator
