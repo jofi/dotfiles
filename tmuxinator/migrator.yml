@@ -46,5 +46,15 @@ windows:
       # 'before' represents legacy functionality and will be deprecated in a future release, in favour of 'after'
       # synchronize: after
       panes:
-        - cd bmw_indonesia_inafis_migrator && vim
-        - cd bmw_indonesia_inafis_migrator
+        - cd inafis_migrator && vim
+        - cd inafis_migrator
+  - chile:
+      layout: even-horizontal
+      panes:
+        - cd chile_nhc_migrator && vim
+        - cd chile_nhc_migrator
+  - perftest:
+      layout: even-horizontal
+      panes:
+        - cd perftest_migrator && vim
+        - cd perftest_migrator

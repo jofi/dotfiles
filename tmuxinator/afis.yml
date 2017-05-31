@@ -1,6 +1,6 @@
 # ~/.tmuxinator/eafis.yml
 
-name: eafis
+name: afis
 root: ~/workspace/_products/eafis/afismq
 
 # Optional tmux socket
