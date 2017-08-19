@@ -74,3 +74,10 @@ autocmd FileType vimwiki imap <Leader>s <ESC><Leader>s
 
 " <Ctrl-l> redraws the screen and removes any search highlighting.
 nnoremap <silent> <C-l> :nohl<CR><C-l>
+
+" Allow saving of files as sudo when I forgot to start vim using sudo.
+cmap w! w !sudo tee > /dev/null %
+
+" Ruby puts debugging (http://tenderlovemaking.com/2016/02/05/i-am-a-puts-debuggerer.html)
+" puts the caller
+nnoremap <leader>wtf oputs "#" * 90<c-m>puts caller<c-m>puts "#" * 90<esc>
