@@ -1,10 +1,14 @@
+## Zprof (uncomment for profiling purposes)
+# zmodload zsh/zprof
+
 # shortcut to this dotfiles path is $ZSH
 # export ZSH=$HOME/.dotfiles/zsh
 export ZSH=$HOME/.dotfiles/oh-my-zsh
 
 # your project folder that we can `c [tab]` to
 export WORKSPACE=~/workspace
-export PROJECTS=$WORKSPACE/_projects
+export WINWORKSPACE=/home/jofi/windows_workspace
+export PROJECTS=$WINWORKSPACE/_projects
 export PRODUCTS=$WORKSPACE/_products
 
 ## source every .zsh file in this rep
@@ -18,7 +22,8 @@ export PRODUCTS=$WORKSPACE/_products
 #for config_file ($ZSH/**/completion.sh) source $config_file
 #
 #ZSH_THEME="robbyrussell"
-ZSH_THEME="jofi"
+#ZSH_THEME="jofi"
+ZSH_THEME="agnoster"
 
 # Example aliases
 # alias zshconfig="mate ~/.zshrc"
@@ -42,7 +47,10 @@ DISABLE_AUTO_UPDATE="true"
 # Which plugins would you like to load? (plugins can be found in ~/.oh-my-zsh/plugins/*)
 # Custom plugins may be added to ~/.oh-my-zsh/custom/plugins/
 # Example format: plugins=(rails git textmate ruby lighthouse)
-plugins=(git git_jofi system_jofi)
+
+plugins=(git python git_jofi ssh-agent system_jofi)
+
+zstyle :omz:plugins:ssh-agent agent-forwarding on
 
 source $ZSH/oh-my-zsh.sh
 
@@ -53,4 +61,3 @@ if [[ -a ~/.localrc ]]
 then
   source ~/.localrc
 fi
-

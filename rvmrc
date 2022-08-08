@@ -1,2 +1,4 @@
 export rvm_pretty_print_flag=1
 export rvm_path="/home/jofi/.rvm"
+rvm_silence_path_mismatch_check_flag=1
+export rvm_max_time_flag=20

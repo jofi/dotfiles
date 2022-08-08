@@ -5,8 +5,8 @@
 :sources:
 - https://rubygems.org
 - http://rubygems.ba.innovatrics.net
-- http://gems.rubyforge.org
-- http://gems.github.com
+#- http://gems.rubyforge.org
+#- http://gems.github.com
 :update_sources: true
 :verbose: true
 gem: --no-ri --no-rdoc --no-user-install
