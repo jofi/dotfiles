@@ -8,8 +8,8 @@ These are config files to set up a system the way I like it. Thanks to Ryan Bate
   # apt-get install git rake
   git clone git://github.com/jofi/dotfiles ~/.dotfiles
   cd ~/.dotfiles
-  git submodule update --remote vim
-  git submodule update --remote oh-my-zsh
+  git submodule update --init --remote vim
+  git submodule update --init --remote oh-my-zsh
   rake install
   # optionally:
   # cp localrc ~/.localrc
