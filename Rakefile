@@ -57,9 +57,4 @@ to the end of original '~/.bashrc'
   end
 end
 
-desc "Install janus (vim dotfiles)"
-task :install_janus do
-  system "cd vim && rake"
-end
-
-task :default => ["install", "install_janus"]
+task :default => ["install"]

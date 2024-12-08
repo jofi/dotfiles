@@ -2,11 +2,8 @@ map <silent> <F11> :if exists(":BufExplorer")<Bar>exe "BufExplorer"<Bar>else<Bar
 "nmap <silent> <C-T> :if exists(":BufExplorer")<Bar>exe "BufExplorer"<Bar>else<Bar>buffers<Bar>endif<CR>
 map <C-F4> :bdelete<CR>
 
-
 map <leader>ve :edit ~/.vimrc.after<CR>
 map <leader>vs :source ~/.vimrc.after<CR>
-
-color railscasts2
 
 let g:surround_{char2nr('-')} = "<% \r %>"
 let g:surround_{char2nr('=')} = "<%= \r %>"
