@@ -48,7 +48,7 @@ DISABLE_AUTO_UPDATE="true"
 # Custom plugins may be added to ~/.oh-my-zsh/custom/plugins/
 # Example format: plugins=(rails git textmate ruby lighthouse)
 
-plugins=(git python git_jofi ssh-agent system_jofi)
+plugins=(git python nvm git_jofi ssh-agent system_jofi)
 
 zstyle :omz:plugins:ssh-agent agent-forwarding on
 
