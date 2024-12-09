@@ -1,0 +1,12 @@
+# ~/.tmuxinator/eafis.yml
+
+name: elk
+root: ~/workspace/_delivery/afis-dockerized-elk-processing
+
+windows:
+  - code:
+      layout: even-vertical
+      panes:
+        - vim
+        - cd .
+        - cd ~/workspace/_delivery/filebeat-6.0.0-linux-x86_64
