@@ -1,0 +1,12 @@
+#!/bin/bash
+
+id=$(uuidgen | cut -c 1-4)
+name=dev-$USER-$id
+docker run -ti --rm --name $name --hostname $name \
+          -v "$HOME/:$HOME/" \
+          -v "$HOME/:/home/dev/" \
+          -v "/var/run/docker.sock:/var/run/docker.sock" \
+          -w $PWD \
+          -u postgres \
+          postgres:16 \
+          psql "$@"
