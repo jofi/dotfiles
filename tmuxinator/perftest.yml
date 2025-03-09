@@ -1,9 +1,0 @@
-# ~/.tmuxinator/inno_exception_reporter.yml
-# you can make as many tabs as you wish...
-
-name: perftest
-root: /home/jofi/migrator/perftest_migrator
-windows:
-  - shell: #empty, will just run plain bash
-  - amafis: ssh -t amafis
-  - perftest-man: ssh -t perftest-man
