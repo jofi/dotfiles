@@ -1,0 +1,81 @@
+map <silent> <F11> :if exists(":BufExplorer")<Bar>exe "BufExplorer"<Bar>else<Bar>buffers<Bar>endif<CR>
+"nmap <silent> <C-T> :if exists(":BufExplorer")<Bar>exe "BufExplorer"<Bar>else<Bar>buffers<Bar>endif<CR>
+map <C-F4> :bdelete<CR>
+
+map <leader>ve :edit ~/.vimrc.after<CR>
+map <leader>vs :source ~/.vimrc.after<CR>
+
+let g:surround_{char2nr('-')} = "<% \r %>"
+let g:surround_{char2nr('=')} = "<%= \r %>"
+let g:surround_{char2nr('8')} = "/* \r */"
+let g:surround_{char2nr('s')} = " \r"
+let g:surround_{char2nr('^')} = "/^\r$/"
+let g:surround_indent = 1
+"let g:NERDCreateDefaultMappings = 0
+let g:NERDSpaceDelims = 1
+let g:NERDShutUp = 1
+let g:NERDTreeHijackNetrw = 0
+
+function! OpenURL(url)
+  if has("win32")
+    exe "!start cmd /cstart /b ".a:url.""
+  elseif $DISPLAY !~ '^\w'
+    exe "silent !sensible-browser \"".a:url."\""
+  else
+    exe "silent !sensible-browser -T \"".a:url."\""
+  endif
+  redraw!
+endfunction
+command! -nargs=1 OpenURL :call OpenURL(<q-args>)
+" open URL under cursor in browser
+nnoremap gb :OpenURL <cfile><CR>
+nnoremap gA :OpenURL http://www.answers.com/<cword><CR>
+nnoremap gG :OpenURL http://www.google.com/search?q=<cword><CR>
+nnoremap gW :OpenURL http://en.wikipedia.org/wiki/Special:Search?search=<cword><CR>
+
+map <C-F> :Ack<space>
+map <C-f> :Ack<space>
+map <leader>rr :setfiletype ruby<CR>
+map <C-f>c :Ack<space> ../commons<Left><Left><Left><Left><Left><Left><Left><Left><Left><Left><Left>
+
+let g:ruby_debugger_debug_mode = 1
+map <F7>  :call g:RubyDebugger.step()<CR>
+map <F5>  :call g:RubyDebugger.next()<CR>
+map <F8>  :call g:RubyDebugger.continue()<CR>
+" let g:ctrlp_working_path_mode = ''
+" let g:ctrlp_follow_symlinks = 1
+
+" xmpfilter bindings
+autocmd FileType ruby nmap <buffer> <Leader>m <Plug>(xmpfilter-mark)
+autocmd FileType ruby xmap <buffer> <Leader>m <Plug>(xmpfilter-mark)
+autocmd FileType ruby imap <buffer> <Leader>m <Plug>(xmpfilter-mark)
+
+autocmd FileType ruby nmap <buffer> <Leader>r <Plug>(xmpfilter-run)
+autocmd FileType ruby xmap <buffer> <Leader>r <Plug>(xmpfilter-run)
+autocmd FileType ruby imap <buffer> <Leader>r <Plug>(xmpfilter-run)
+" puts the caller
+autocmd FileType ruby nnoremap <leader>wtf oputs "#" * 90<c-m>puts caller<c-m>puts "#" * 90<esc>
+autocmd FileType ruby nnoremap <leader>wtd oputs "#" * 90<c-m>require "pry"<c-m>binding.pry<c-m>puts "#" * 90<esc>
+
+autocmd FileType vimwiki nnoremap <Leader>c :.!showoff add -t code<CR>
+autocmd FileType vimwiki nnoremap <Leader>bb :.!showoff add -t bullets<CR>
+autocmd FileType vimwiki nnoremap <Leader>5 :.!showoff add -t smbullets<CR>
+autocmd FileType vimwiki nnoremap <Leader>C :.!showoff add -t commandline<CR>
+autocmd FileType vimwiki nnoremap <Leader>i :.!showoff add -t full-page<CR>
+autocmd FileType vimwiki nnoremap <Leader>s :.!showoff add<CR>
+autocmd FileType vimwiki imap <Leader>c <ESC><Leader>c
+autocmd FileType vimwiki imap <Leader>b <ESC><Leader>b
+autocmd FileType vimwiki imap <Leader>5 <ESC><Leader>5
+autocmd FileType vimwiki imap <Leader>i <ESC><Leader>i
+autocmd FileType vimwiki imap <Leader>C <ESC><Leader>C
+autocmd FileType vimwiki imap <Leader>s <ESC><Leader>s
+
+" <Ctrl-l> redraws the screen and removes any search highlighting.
+nnoremap <silent> <C-l> :nohl<CR><C-l>
+
+" Allow saving of files as sudo when I forgot to start vim using sudo.
+cmap w! w !sudo tee > /dev/null %
+
+" Ruby puts debugging (http://tenderlovemaking.com/2016/02/05/i-am-a-puts-debuggerer.html)
+" puts the caller
+nnoremap <leader>wtf oputs "#" * 90<c-m>puts caller<c-m>puts "#" * 90<esc>
