@@ -1,0 +1,2 @@
+#compdef prod
+_files -W $PRODUCTS -/

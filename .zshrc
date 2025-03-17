@@ -1,12 +1,24 @@
+# Load custom configurations
+export ZSH_CUSTOM=$HOME/.zsh
+
+## use .localrc for SUPER SECRET CRAP that you don't
+## want in your public, versioned repo.
+if [[ -a $HOME/.localrc && $LOCALRC != "loaded" ]]
+then
+  echo "Loading $HOME/.localrc"
+  source $HOME/.localrc
+  export LOCALRC="loaded"
+fi
+
 ## Zprof (uncomment for profiling purposes)
 # zmodload zsh/zprof
 
 # shortcut to this dotfiles path is $ZSH
-# export ZSH=$HOME/.dotfiles/zsh
 export ZSH=$HOME/.oh-my-zsh
 
-# your project folder that we can `c [tab]` to
-export WORKSPACE=~/workspace
+# Add custom functions and completions to fpath
+# fpath=(~/.zsh/functions ~/.zsh/completions $fpath)
+# autoload -U ~/.zsh/functions/*(:t)
 
 ## source every .zsh file in this rep
 #for config_file ($ZSH/**/*.zsh) source $config_file
@@ -18,13 +30,13 @@ export WORKSPACE=~/workspace
 ## load every completion after autocomplete loads
 #for config_file ($ZSH/**/completion.sh) source $config_file
 #
-#ZSH_THEME="robbyrussell"
 
+#ZSH_THEME="robbyrussell"
 ZSH_THEME="agnoster"
 
 # Example aliases
-# alias zshconfig="mate ~/.zshrc"
-# alias ohmyzsh="mate ~/.oh-my-zsh"
+# alias zshconfig="vim ~/.zshrc"
+# alias ohmyzsh="vim ~/.oh-my-zsh"
 
 # Set to this to use case-sensitive completion
 # CASE_SENSITIVE="true"
@@ -43,21 +55,10 @@ DISABLE_AUTO_UPDATE="true"
 
 # Which plugins would you like to load? (plugins can be found in ~/.oh-my-zsh/plugins/*)
 # Custom plugins may be added to ~/.oh-my-zsh/custom/plugins/
-# Example format: plugins=(rails git textmate ruby lighthouse)
+# Example format: plugins=(rails git textvim ruby lighthouse)
 
-plugins=(git python nvm git_jofi ssh-agent system_jofi)
-zstyle :omz:plugins:ssh-agent agent-forwarding on
+#plugins=(git python nvm git_jofi ssh-agent system_jofi)
+plugins=(git jofi-custom jofi-git jofi-docker-functions)
+
+#zstyle :omz:plugins:ssh-agent agent-forwarding on
 source $ZSH/oh-my-zsh.sh
-
-# Load custom configurations
-for config_file in ~/.zsh/{environment,functions,aliases}.sh; do
-    [ -r "$config_file" ] && source "$config_file"
-done
-
-## use .localrc for SUPER SECRET CRAP that you don't
-## want in your public, versioned repo.
-if [[ -a ~/.localrc && $LOCALRC != "loaded" ]]
-then
-  source ~/.localrc
-  export LOCALRC="loaded"
-fi

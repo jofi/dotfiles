@@ -1,3 +1,12 @@
+# your project folder that we can `c [tab]` to
+export WORKSPACE=~/workspace
+export DATASETS=~/Datasets
+
+export PATH="$HOME/bin:$HOME/.local/bin:$PATH"
+
+# FAT Scripts
+export PATH=$WORKSPACE/abis_scripts:$PATH 
+
 # Docker environment
 if [[ -a /.dockerenv  ]]; then
     export PATH=$HOME/.linuxbrew/bin:$PATH
@@ -27,7 +36,4 @@ export NVM_DIR="$HOME/.nvm"
 
 # SDKMAN setup
 export SDKMAN_DIR="$HOME/.sdkman"
-[[ -s "$HOME/.sdkman/bin/sdkman-init.sh" ]] && source "$HOME/.sdkman/bin/sdkman-init.sh"
-
-# FAT Scripts
-export PATH=$PATH:$HOME/workspace/fat/stee-fat/scripts 
+[[ -s "$HOME/.sdkman/bin/sdkman-init.sh" ]] && source "$HOME/.sdkman/bin/sdkman-init.sh" 
