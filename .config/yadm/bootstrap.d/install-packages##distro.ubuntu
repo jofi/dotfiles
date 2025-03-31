@@ -1,0 +1,66 @@
+# oh-my-zsh
+sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
+
+# miniconda
+wget https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_64.sh -O /tmp/miniconda.sh
+bash /tmp/miniconda.sh -b -u -p ~/miniconda3
+echo ". ~/miniconda3/etc/profile.d/conda.sh" >> ~/.bashrc
+echo "conda activate" >> ~/.bashrc
+
+source ~/.bashrc
+conda install -c conda-forge mamba # installs much faster than conda
+mamba install -c conda-forge dvc
+mamba install -c conda-forge dvc-s3
+
+# aws cli
+curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip"
+unzip awscliv2.zip
+sudo ./aws/install
+
+# Update system and install basic packages
+sudo apt update
+sudo apt upgrade -y
+sudo apt install -y zsh
+sudo usermod -s /bin/zsh $USER
+
+# Install git and vim from apt
+sudo apt install -y git vim squashfs-tools squashfuse jq
+
+# Install rbenv and ruby build dependencies
+sudo apt install -y gcc make bzip2 libssl-dev libreadline-dev zlib1g-dev
+
+# Install rbenv
+git clone https://github.com/rbenv/rbenv.git ~/.rbenv
+echo 'export PATH="$HOME/.rbenv/bin:$PATH"' >> ~/.bashrc
+echo 'eval "$(rbenv init -)"' >> ~/.bashrc
+
+# Install ruby-build plugin
+git clone https://github.com/rbenv/ruby-build.git ~/.rbenv/plugins/ruby-build
+
+# Install nvm
+curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.7/install.sh | bash
+
+# Add nvm to shell
+echo 'export NVM_DIR="$HOME/.nvm"' >> ~/.bashrc
+echo '[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"' >> ~/.bashrc
+echo '[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"' >> ~/.bashrc
+
+# Install eza (modern ls replacement)
+sudo apt install -y eza
+
+# Install docker from official repo
+sudo apt install -y ca-certificates curl gnupg
+sudo install -m 0755 -d /etc/apt/keyrings
+curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo gpg --dearmor -o /etc/apt/keyrings/docker.gpg
+sudo chmod a+r /etc/apt/keyrings/docker.gpg
+echo \
+  "deb [arch="$(dpkg --print-architecture)" signed-by=/etc/apt/keyrings/docker.gpg] https://download.docker.com/linux/ubuntu \
+  "$(. /etc/os-release && echo "$VERSION_CODENAME")" stable" | \
+  sudo tee /etc/apt/sources.list.d/docker.list > /dev/null
+sudo apt update
+sudo apt install -y docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin
+
+# Install minio client (mc)
+curl https://dl.min.io/client/mc/release/linux-amd64/mc -o /tmp/mc
+sudo mv /tmp/mc /usr/local/bin/mc
+sudo chmod +x /usr/local/bin/mc 

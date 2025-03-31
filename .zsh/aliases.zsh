@@ -1,6 +1,7 @@
 alias df='df -h'
 alias du='du -sh'
-alias reload!='. ~/.zshrc'
+#alias reload!='. ~/.zshrc'
+alias reload!='exec zsh'
 
 alias be='bundle exec'
 alias lic="cd ${WORKSPACE}/_license/license_generators/pc"
