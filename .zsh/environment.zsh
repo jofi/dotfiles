@@ -13,7 +13,7 @@ if [[ -a /.dockerenv  ]]; then
 fi
 
 # rbenv setup
-# export PATH="$HOME/.rbenv/bin:$PATH"
+export PATH="$PATH:$HOME/.rbenv/bin"
 eval "$(rbenv init -)"
 
 # Conda setup
