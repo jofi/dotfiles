@@ -17,17 +17,29 @@ export PATH="$PATH:$HOME/.rbenv/bin"
 eval "$(rbenv init -)"
 
 # Conda setup
-__conda_setup="$('/opt/homebrew/Caskroom/miniconda/base/bin/conda' 'shell.bash' 'hook' 2> /dev/null)"
-if [ $? -eq 0 ]; then
-    eval "$__conda_setup"
-else
-    if [ -f "/opt/homebrew/Caskroom/miniconda/base/etc/profile.d/conda.sh" ]; then
-        . "/opt/homebrew/Caskroom/miniconda/base/etc/profile.d/conda.sh"
-    else
-        export PATH="/opt/homebrew/Caskroom/miniconda/base/bin:$PATH"
+# Check for Conda installation in either Homebrew or home directory
+CONDA_PATHS=(
+    "/opt/homebrew/Caskroom/miniconda/base"
+    "$HOME/miniconda3"
+)
+
+# Try to find Conda installation
+for conda_path in "${CONDA_PATHS[@]}"; do
+    if [[ -f "$conda_path/bin/conda" ]]; then
+        __conda_setup="$("$conda_path/bin/conda" 'shell.zsh' 'hook' 2> /dev/null)"
+        if [ $? -eq 0 ]; then
+            eval "$__conda_setup"
+        else
+            if [ -f "$conda_path/etc/profile.d/conda.sh" ]; then
+                . "$conda_path/etc/profile.d/conda.sh"
+            else
+                export PATH="$conda_path/bin:$PATH"
+            fi
+        fi
+        unset __conda_setup
+        break
     fi
-fi
-unset __conda_setup
+done
 
 # NVM setup
 export NVM_DIR="$HOME/.nvm"
@@ -37,3 +49,7 @@ export NVM_DIR="$HOME/.nvm"
 # SDKMAN setup
 export SDKMAN_DIR="$HOME/.sdkman"
 [[ -s "$HOME/.sdkman/bin/sdkman-init.sh" ]] && source "$HOME/.sdkman/bin/sdkman-init.sh" 
+
+# minio client completion
+autoload -U +X bashcompinit && bashcompinit
+complete -o nospace -C /opt/homebrew/bin/mc mc

@@ -1,0 +1,40 @@
+# Install packages
+
+# Install Homebrew
+# /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+
+# Install minio client (mc)
+brew install mc
+
+# Install awscli
+brew install awscli
+
+# Install packages
+brew install git vim squashfuse jq gcc make bzip2 openssl zlib eza
+
+# Install docker
+brew install --cask docker
+
+# Install miniconda
+brew install --cask miniconda
+
+# Initialize conda for the current shell
+eval "$(/usr/local/Caskroom/miniconda/base/bin/conda shell.zsh hook)"
+
+
+# Install mamba
+conda install -c conda-forge mamba # installs much faster than conda
+mamba install -c conda-forge dvc
+mamba install -c conda-forge dvc-s3
+
+# Install rbenv
+brew install rbenv
+
+# Install ruby-build
+brew install ruby-build
+
+# Install nvm
+brew install nvm
+
+# Install sdkman
+brew install sdkman 

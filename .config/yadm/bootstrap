@@ -28,3 +28,17 @@ for bootstrap in "${bootstraps[@]}"; do
         exit 1
     fi
 done
+
+echo
+echo "Consider gerenating new ssh keys, e.g.:"
+echo "ssh-keygen -t ed25519 -C \"your_email@example.com\" -f ~/.ssh/id_ed25519 -N \"\""
+echo "and adding them to github/gitlab/bitbucket"
+
+echo
+echo "Consider updating the yadm repo origin URL, e.g.:"
+echo "yadm remote set-url origin \"git@github.com:jofi/dotfiles.git\""
+
+echo
+echo "Consider configure git, e.g.:"
+echo "git config --global user.name \"Jozef Fulop\""
+echo "git config --global user.email \"<email>@<address>\""
