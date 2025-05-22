@@ -13,8 +13,10 @@ if [[ -a /.dockerenv  ]]; then
 fi
 
 # rbenv setup
-export PATH="$PATH:$HOME/.rbenv/bin"
-eval "$(rbenv init -)"
+if command -v rbenv >/dev/null 2>&1; then
+    export PATH="$PATH:$HOME/.rbenv/bin"
+    eval "$(rbenv init -)"
+fi
 
 # Conda setup
 # Check for Conda installation in either Homebrew or home directory

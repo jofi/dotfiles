@@ -18,6 +18,9 @@ brew install --cask docker
 # Install miniconda
 brew install --cask miniconda
 
+# Install direnv
+brew install direnv
+
 # Initialize conda for the current shell
 eval "$(/usr/local/Caskroom/miniconda/base/bin/conda shell.zsh hook)"
 

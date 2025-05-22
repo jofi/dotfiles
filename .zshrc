@@ -58,7 +58,24 @@ DISABLE_AUTO_UPDATE="true"
 # Example format: plugins=(rails git textvim ruby lighthouse)
 
 #plugins=(git python nvm git_jofi ssh-agent system_jofi)
-plugins=(git jofi-custom jofi-git jofi-docker-functions)
+plugins=(git jofi-custom jofi-git jofi-docker-functions ssh-agent direnv)
 
 #zstyle :omz:plugins:ssh-agent agent-forwarding on
 source $ZSH/oh-my-zsh.sh
+
+#eval "$(direnv hook zsh)"
+#autoload -U add-zsh-hook
+
+#_conda_prompt_update() {
+#  if [[ -n "$CONDA_DEFAULT_ENV" ]]; then
+#    PROMPT="%{$fg[blue]%}($CONDA_DEFAULT_ENV)%{$reset_color%} $PROMPT"
+#  fi
+#}
+
+#add-zsh-hook precmd _conda_prompt_update
+
+if [[ "$TERM" == "xterm-256color" || "$TERM" == "screen-256color" ]]; then
+  bindkey '\e[H' beginning-of-line
+  bindkey '\e[F' end-of-line
+  bindkey '\e[3~' delete-char
+fi

@@ -17,32 +17,8 @@ function ssh-umount {
     sudo umount ${ldir}
 }
 
-# Development environment functions
-function cstoolset-dev {
-    id=$(uuidgen | cut -c 1-4)
-    name=abis-toolkit-$USER-$id
-    docker run -ti --rm \
-        --name $name --hostname $name \
-        -v "$HOME/:$HOME/" \
-        -v "$HOME/:/home/csuser/" \
-        -v "/var/run/docker.sock:/var/run/docker.sock" \
-        -w $PWD -u csuser \
-        registry.ba.innovatrics.net/jozef.fulop/cs_ruby_toolset "$@"
-}
-
-function atoolkit-dev {
-    id=$(uuidgen | cut -c 1-4)
-    name=abis-toolkit-$USER-$id
-    docker run -ti --rm \
-        --name $name --hostname $name \
-        -v "$HOME/:$HOME/" \
-        -v "$HOME/:/home/csuser/" \
-        -v "/var/run/docker.sock:/var/run/docker.sock" \
-        -w $PWD -u csuser \
-        registry.ba.innovatrics.net/cs/abis-toolkit "$@"
-}
-
 alias dev=ubuntu-dev
+
 function ubuntu-dev {
     id=$(uuidgen | cut -c 1-4)
     name=dev-$USER-$id
@@ -55,7 +31,7 @@ function ubuntu-dev {
         dev/ubuntu "$@"
 }
 
-function centos-dev {
+function rocky-dev {
     id=$(uuidgen | cut -c 1-4)
     name=dev-$USER-$id
     docker run -ti --rm \
@@ -64,7 +40,7 @@ function centos-dev {
         -v "$HOME/:/home/dev/" \
         -v "/var/run/docker.sock:/var/run/docker.sock" \
         -w $PWD -u dev \
-        dev/centos "$@"
+        dev/rocky "$@"
 }
 
 function debian-dev {
