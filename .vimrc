@@ -36,4 +36,9 @@ if filereadable(expand("~/.vimrc.after"))
   source ~/.vimrc.after
 endif
 
-set backspace=indent,eol,start
+if has("mac") || $TERM_PROGRAM ==# "iTerm.app"
+  nnoremap <C-a> 0
+  inoremap <C-a> <C-o>0
+  nnoremap <C-e> $
+  inoremap <C-e> <C-o>$
+endif
