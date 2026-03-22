@@ -79,3 +79,64 @@ if [[ "$TERM" == "xterm-256color" || "$TERM" == "screen-256color" ]]; then
   bindkey '\e[F' end-of-line
   bindkey '\e[3~' delete-char
 fi
+
+sshb() {
+  local host="$1"
+  shift
+
+  # Default: no env ID
+  local env_id=""
+  local profile=""
+  local tab_color=""
+  local badge=""
+
+  # Check if second argument is a known env ID
+  case "$1" in
+    prod|production)
+      env_id="prod"
+      badge="PROD"
+      profile="Production"
+      tab_color="65535;0;0"        # Bright Red
+      shift
+      ;;
+    stage|staging)
+      env_id="staging"
+      badge="STAGING"
+      profile="Staging"
+      tab_color="65535;42405;0"   # Orange
+      shift
+      ;;
+    dev|development)
+      env_id="dev"
+      badge="DEV"
+      profile="Development"
+      tab_color="0;32768;65535"   # Blue
+      shift
+      ;;
+    *)
+      # $1 is not a known env_id, treat as regular ssh argument
+      ;;
+  esac
+
+  # Apply iTerm2 customizations if inside iTerm and env_id was matched
+  if [[ -n "$env_id" && "$TERM_PROGRAM" == "iTerm.app" ]]; then
+    [[ -n "$badge" ]] && echo -ne "\033]1337;SetBadgeFormat=$(echo -n "$badge" | base64)\a"
+    [[ -n "$tab_color" ]] && echo -ne "\033]6;1;bg;tab_color;rgb;${tab_color}\a"
+    [[ -n "$profile" ]] && echo -ne "\033]1337;SetProfile=${profile}\a"
+  fi
+
+  # SSH to the host with all remaining args
+  command ssh "$host" "$@"
+
+  # Cleanup
+  if [[ -n "$env_id" && "$TERM_PROGRAM" == "iTerm.app" ]]; then
+    echo -ne "\033]1337;SetBadgeFormat=\a"
+    echo -ne "\033]1337;SetProfile=Default\a"
+    echo -ne "\033]6;1;bg;tab_color;default\a"
+  fi
+}
+
+# Added by LM Studio CLI (lms)
+export PATH="$PATH:/Users/jozeffulop/.lmstudio/bin"
+# End of LM Studio CLI section
+
