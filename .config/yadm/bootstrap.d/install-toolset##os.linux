@@ -1,6 +1,9 @@
 # oh-my-zsh
 sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
 
+# Install Cursor CLI
+curl https://cursor.com/install -fsS | bash
+
 # miniconda
 wget https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_64.sh -O /tmp/miniconda.sh
 bash /tmp/miniconda.sh -b -u -p ~/miniconda3
