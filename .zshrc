@@ -136,6 +136,12 @@ sshb() {
   fi
 }
 
+# Refresh SSH agent socket (useful in long-running tmux sessions)
+alias fix-ssh='export SSH_AUTH_SOCK=$(tmux show-environment SSH_AUTH_SOCK | cut -d= -f2)'
+if [ -n "$TMUX" ]; then
+  export SSH_AUTH_SOCK=$(tmux show-environment SSH_AUTH_SOCK 2>/dev/null | cut -d= -f2)
+fi
+
 # Added by LM Studio CLI (lms)
 export PATH="$PATH:/Users/jozeffulop/.lmstudio/bin"
 # End of LM Studio CLI section
