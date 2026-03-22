@@ -3,6 +3,9 @@
 # Install Homebrew
 # /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
 
+# Install Cursor CLI
+curl https://cursor.com/install -fsS | bash
+
 # Install minio client (mc)
 brew install mc
 
