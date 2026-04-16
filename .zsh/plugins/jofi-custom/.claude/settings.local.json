@@ -1,8 +1,0 @@
-{
-  "permissions": {
-    "allow": [
-      "Read(//Users/jozeffulop/**)",
-      "Read(//Users/jozeffulop/.zsh/plugins/jofi-git/**)"
-    ]
-  }
-}
