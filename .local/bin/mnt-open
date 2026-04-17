@@ -1,0 +1,17 @@
+#!/usr/bin/env bash
+set -euo pipefail
+. "$(dirname "$0")/mnt-lib.sh"
+
+usage(){ cat <<EOF
+Usage:
+  mnt-open <name-or-path>
+Prints the resolved, currently-mounted path (for use in command substitution):
+  cd "\$(mnt-open NAME)"
+EOF
+}
+
+[[ $# -ge 1 ]] || { usage; exit 2; }
+p="$(resolve_mount_path "$1" || true)"
+[[ -n "${p:-}" ]] || die "not found by path or name: $1"
+if ! is_mounted "$p"; then die "not mounted: $p"; fi
+echo "$p"

@@ -1,0 +1,27 @@
+#!/usr/bin/env bash
+set -euo pipefail
+. "$(dirname "$0")/mnt-lib.sh"
+need sshfs
+
+usage(){ cat <<EOF
+Usage:
+  mnt-sshfs <user@host[:port]>[:/remote/path] [name]
+Env:
+  MNT_BASE, SSHFS_OPTS, SSH_OPTS
+EOF
+}
+
+[[ $# -ge 1 ]] || { usage; exit 2; }
+remote="$1"; name="${2:-$(sanitize "$remote")}"
+mount_dir="$(mnt_path ssh "$name")"
+ensure_dir "$mount_dir"
+
+uidgid_val="$(uidgid)"
+opts="uid=$(echo "$uidgid_val" | cut -d: -f1),gid=$(echo "$uidgid_val" | cut -d: -f2),${SSHFS_OPTS}"
+if [[ -n "${SSH_OPTS:-}" ]]; then
+  opts="${opts},ssh_command=ssh\ ${SSH_OPTS// /\\ }"
+fi
+
+echo "→ mounting sshfs $remote → $mount_dir"
+sshfs "$remote" "$mount_dir" -o "$opts"
+echo "✓ mounted at $mount_dir"

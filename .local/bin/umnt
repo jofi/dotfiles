@@ -1,0 +1,35 @@
+#!/usr/bin/env bash
+set -euo pipefail
+. "$(dirname "$0")/mnt-lib.sh"
+
+usage(){ cat <<EOF
+Usage:
+  umnt <name-or-path> | all
+EOF
+}
+
+umnt_all(){
+  local root d
+  for sub in ssh sqfs arc; do
+    root="${MNT_BASE}/${sub}"
+    [[ -d "$root" ]] || continue
+    shopt -s nullglob
+    for d in "$root"/*/; do
+      d="${d%/}"
+      if is_mounted "$d"; then
+        echo "← unmount $d"
+        umount_path "$d" || true
+      fi
+    done
+    shopt -u nullglob
+  done
+}
+
+[[ $# -ge 1 ]] || { usage; exit 2; }
+arg="$1"
+if [[ "$arg" == "all" ]]; then umnt_all; exit 0; fi
+if [[ -e "$arg" ]]; then umount_path "$arg"; exit 0; fi
+
+d="$(resolve_mount_path "$arg" || true)"
+[[ -n "${d:-}" ]] || die "not found by path or name: $arg"
+umount_path "$d"

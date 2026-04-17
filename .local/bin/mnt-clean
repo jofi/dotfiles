@@ -1,0 +1,31 @@
+#!/usr/bin/env bash
+set -euo pipefail
+. "$(dirname "$0")/mnt-lib.sh"
+
+usage(){ cat <<EOF
+Usage:
+  mnt-clean
+Removes EMPTY and NOT-MOUNTED leaf directories under:
+  \$MNT_BASE/{ssh,sqfs,arc}
+EOF
+}
+
+[[ "${1:-}" == "-h" || "${1:-}" == "--help" ]] && { usage; exit 0; }
+
+removed=0
+for sub in ssh sqfs arc; do
+  root="${MNT_BASE}/${sub}"
+  [[ -d "$root" ]] || continue
+  shopt -s nullglob
+  for d in "$root"/*/; do
+    d="${d%/}"
+    if ! is_mounted "$d"; then
+      if [ -z "$(ls -A "$d" 2>/dev/null)" ]; then
+        rmdir "$d" && { echo "✂ removed $d"; removed=$((removed+1)); }
+      fi
+    fi
+  done
+  shopt -u nullglob
+done
+
+echo "Done. Removed $removed empty unmounted dirs."

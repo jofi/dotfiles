@@ -1,0 +1,17 @@
+#!/usr/bin/env bash
+set -euo pipefail
+. "$(dirname "$0")/mnt-lib.sh"
+
+verbose=0
+if [[ "${1:-}" == "-v" || "${1:-}" == "--verbose" ]]; then
+  verbose=1
+fi
+
+echo "# ssh"
+list_mounts ssh "$verbose" || true
+echo
+echo "# sqfs"
+list_mounts sqfs "$verbose" || true
+echo
+echo "# arc"
+list_mounts arc "$verbose" || true

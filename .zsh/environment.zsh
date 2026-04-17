@@ -1,4 +1,4 @@
-export PATH="$HOME/bin:$HOME/.local/bin:$PATH"
+export PATH="$HOME/.local/bin:$PATH"
 
 # Docker environment
 if [[ -a /.dockerenv  ]]; then

@@ -1,0 +1,23 @@
+#!/usr/bin/env bash
+set -euo pipefail
+. "$(dirname "$0")/mnt-lib.sh"
+need squashfuse
+
+usage(){ cat <<EOF
+Usage:
+  mnt-sqfs <image.sqfs> [name]
+Env:
+  MNT_BASE, SQUASHFUSE_OPTS
+Note: /etc/fuse.conf must contain 'user_allow_other' for allow_other.
+EOF
+}
+
+[[ $# -ge 1 ]] || { usage; exit 2; }
+img="$1"; [[ -f "$img" ]] || die "no such file: $img"
+name="${2:-$(sanitize "$(basename "$img")")}"
+mount_dir="$(mnt_path sqfs "$name")"
+ensure_dir "$mount_dir"
+
+echo "→ mounting squashfs $img → $mount_dir"
+squashfuse -o "$SQUASHFUSE_OPTS" "$img" "$mount_dir"
+echo "✓ mounted at $mount_dir"

@@ -1,0 +1,43 @@
+#!/usr/bin/env bash
+set -euo pipefail
+. "$(dirname "$0")/mnt-lib.sh"
+
+usage(){ cat <<EOF
+Usage:
+  mnt-arc <archive.(tar|tar.gz|tgz|tar.zst|zip|iso|7z|...)> [name]
+Env:
+  MNT_BASE, RATARMOUNT_OPTS, ARCHIVEMOUNT_OPTS
+Tools (auto-detected):
+  ratarmount (tar*), fuse-zip (zip), archivemount (general fallback incl. iso)
+EOF
+}
+
+[[ $# -ge 1 ]] || { usage; exit 2; }
+arc="$1"; [[ -f "$arc" ]] || die "no such file: $arc"
+name="${2:-$(sanitize "$(basename "$arc")")}"
+mount_dir="$(mnt_path arc "$name")"
+ensure_dir "$mount_dir"
+
+ext_lc="$(echo "${arc##*.}" | tr '[:upper:]' '[:lower:]')"
+case "$ext_lc" in
+  zip)
+    if command -v fuse-zip >/dev/null 2>&1; then
+      echo "→ fuse-zip $arc → $mount_dir"
+      fuse-zip "$arc" "$mount_dir"
+      echo "✓ mounted at $mount_dir"; exit 0
+    fi
+    ;;
+esac
+
+# tar family via ratarmount if available
+if [[ "$arc" =~ \.(tar|tar\.(gz|bz2|xz|zst)|tgz|tbz2|txz)$ ]] && command -v ratarmount >/dev/null 2>&1; then
+  echo "→ ratarmount $arc → $mount_dir"
+  ratarmount $RATARMOUNT_OPTS "$arc" "$mount_dir"
+  echo "✓ mounted at $mount_dir"; exit 0
+fi
+
+# fallback: archivemount handles many formats (including ISO) read-only
+need archivemount
+echo "→ archivemount $arc → $mount_dir"
+archivemount -o "$ARCHIVEMOUNT_OPTS" "$arc" "$mount_dir"
+echo "✓ mounted at $mount_dir"
