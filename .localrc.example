@@ -5,55 +5,18 @@
 # Workspace directory for the ws() function
 export WORKSPACE="$HOME/workspace"
 
+# Machine-specific exports
+# export DATASETS=~/Datasets
+
 # Project aliases
 # alias myproject="cd $HOME/workspace/myproject"
 
 # Machine-specific PATH additions
 # PATH=${PATH}:$HOME/some/local/tool
+# export PATH=$WORKSPACE/some_scripts:$PATH
 
 # Tool-specific setup (e.g. LM Studio, bun, nvm, cargo, etc.)
 # export PATH="$PATH:$HOME/.lmstudio/bin"
 # export BUN_INSTALL="$HOME/.bun"
 # export PATH="$BUN_INSTALL/bin:$PATH"
 # [ -s "$HOME/.bun/_bun" ] && source "$HOME/.bun/_bun"
-
-# SSH wrapper with iTerm2 environment badges/colors
-# Usage: sshb hostname prod|stage|dev
-sshb() {
-  local host="$1"
-  shift
-
-  local env_id="" profile="" tab_color="" badge=""
-
-  case "$1" in
-    prod|production)
-      env_id="prod"; badge="PROD"; profile="Production"
-      tab_color="65535;0;0"; shift ;;
-    stage|staging)
-      env_id="staging"; badge="STAGING"; profile="Staging"
-      tab_color="65535;42405;0"; shift ;;
-    dev|development)
-      env_id="dev"; badge="DEV"; profile="Development"
-      tab_color="0;32768;65535"; shift ;;
-  esac
-
-  if [[ -n "$env_id" && "$TERM_PROGRAM" == "iTerm.app" ]]; then
-    [[ -n "$badge" ]] && echo -ne "\033]1337;SetBadgeFormat=$(echo -n "$badge" | base64)\a"
-    [[ -n "$tab_color" ]] && echo -ne "\033]6;1;bg;tab_color;rgb;${tab_color}\a"
-    [[ -n "$profile" ]] && echo -ne "\033]1337;SetProfile=${profile}\a"
-  fi
-
-  command ssh "$host" "$@"
-
-  if [[ -n "$env_id" && "$TERM_PROGRAM" == "iTerm.app" ]]; then
-    echo -ne "\033]1337;SetBadgeFormat=\a"
-    echo -ne "\033]1337;SetProfile=Default\a"
-    echo -ne "\033]6;1;bg;tab_color;default\a"
-  fi
-}
-
-# Refresh SSH agent socket (useful in long-running tmux sessions)
-alias fix-ssh='export SSH_AUTH_SOCK=$(tmux show-environment SSH_AUTH_SOCK | cut -d= -f2)'
-if [ -n "$TMUX" ]; then
-  export SSH_AUTH_SOCK=$(tmux show-environment SSH_AUTH_SOCK 2>/dev/null | cut -d= -f2)
-fi

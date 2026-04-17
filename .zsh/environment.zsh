@@ -1,11 +1,4 @@
-# your project folder that we can `c [tab]` to
-export WORKSPACE=~/workspace
-export DATASETS=~/Datasets
-
 export PATH="$HOME/bin:$HOME/.local/bin:$PATH"
-
-# FAT Scripts
-export PATH=$WORKSPACE/abis_scripts:$PATH 
 
 # Docker environment
 if [[ -a /.dockerenv  ]]; then
@@ -53,5 +46,7 @@ export SDKMAN_DIR="$HOME/.sdkman"
 [[ -s "$HOME/.sdkman/bin/sdkman-init.sh" ]] && source "$HOME/.sdkman/bin/sdkman-init.sh" 
 
 # minio client completion
-autoload -U +X bashcompinit && bashcompinit
-complete -o nospace -C /opt/homebrew/bin/mc mc
+if (( $+commands[mc] )); then
+  autoload -U +X bashcompinit && bashcompinit
+  complete -o nospace -C =mc mc
+fi
