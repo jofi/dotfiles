@@ -4,7 +4,7 @@ set -euo pipefail
 PREFIX="${PREFIX:-$HOME/.local/bin}"
 MNT_BASE="${MNT_BASE:-$HOME/mnt}"
 
-mkdir -p "$PREFIX" "$MNT_BASE"/{ssh,sqfs,arc}
+mkdir -p "$PREFIX" "$MNT_BASE"/{ssh,sqfs,ext4,arc}
 
 note(){ printf '%s\n' "$*"; }
 need(){ command -v "$1" >/dev/null 2>&1 || { note "Missing dependency: $1"; MISSING=1; }; }
@@ -28,10 +28,12 @@ need archivemount || true
 need fuse-zip || true
 
 if [[ "${OS}" == "Darwin" ]]; then
+  need ext4fuse || true
   note "On macOS, install macFUSE + tools via Homebrew (gromgit/fuse tap):"
   note "  brew install macfuse"
   note "  brew install gromgit/fuse/sshfs-mac"
   note "  brew install gromgit/fuse/squashfuse-mac"
+  note "  brew install gromgit/fuse/ext4fuse-mac"
   note "  brew install gromgit/fuse/archivemount-mac"
   note "  brew install gromgit/fuse/ratarmount-mac   # or gromgit/fuse/ratarmount"
   note "  brew install gromgit/fuse/fuse-zip-mac"
@@ -46,6 +48,7 @@ set -euo pipefail
 MNT_BASE="${MNT_BASE:-$HOME/mnt}"
 SSHFS_OPTS="${SSHFS_OPTS:-reconnect,ServerAliveInterval=15,ServerAliveCountMax=3,sshfs_sync,workaround=rename,cache=yes}"
 SQUASHFUSE_OPTS="${SQUASHFUSE_OPTS:-ro,allow_other}"
+EXT4FUSE_OPTS="${EXT4FUSE_OPTS:-allow_other}"
 ARCHIVEMOUNT_OPTS="${ARCHIVEMOUNT_OPTS:-ro}"
 RATARMOUNT_OPTS="${RATARMOUNT_OPTS:---foreground}"
 
@@ -139,11 +142,11 @@ print_status_line(){
   fi
 }
 
-# List mounts under a category (ssh|sqfs|arc).
+# List mounts under a category (ssh|sqfs|ext4|arc).
 list_mounts(){
   local sub="${1:-}" verbose="${2:-0}"
   if [[ -z "$sub" ]]; then
-    echo "list_mounts: missing argument (expected: ssh|sqfs|arc)" >&2
+    echo "list_mounts: missing argument (expected: ssh|sqfs|ext4|arc)" >&2
     return 2
   fi
   local root="${MNT_BASE}/${sub}"
@@ -164,13 +167,13 @@ list_mounts(){
   done
 }
 
-# Resolve a name to a full mount path (ssh/sqfs/arc). Prints the first match.
+# Resolve a name to a full mount path (ssh/sqfs/ext4/arc). Prints the first match.
 resolve_mount_path(){
   local name="${1:-}"
   [[ -n "$name" ]] || return 1
   local sname; sname="$(sanitize "$name")"
   local d
-  for sub in ssh sqfs arc; do
+  for sub in ssh sqfs ext4 arc; do
     d="$(mnt_path "$sub" "$sname")"
     if [[ -e "$d" ]]; then
       echo "$d"
@@ -243,6 +246,47 @@ echo "✓ mounted at $mount_dir"
 SQFS
 chmod +x "$PREFIX/mnt-sqfs"
 
+# ---------------- mnt-ext4 ----------------
+cat > "$PREFIX/mnt-ext4" <<'EXT4'
+#!/usr/bin/env bash
+set -euo pipefail
+. "$(dirname "$0")/mnt-lib.sh"
+
+usage(){ cat <<EOF
+Usage:
+  mnt-ext4 <image.ext4|/dev/diskX> [name]
+Env:
+  MNT_BASE, EXT4FUSE_OPTS
+Notes:
+  macOS: uses sudo ext4fuse and mounts read-only
+  Linux: ext4 can be mounted natively, e.g. sudo mount -o loop,ro <image.ext4> <dir>
+EOF
+}
+
+[[ $# -ge 1 ]] || { usage; exit 2; }
+img="$1"; [[ -e "$img" ]] || die "no such file or device: $img"
+name="${2:-$(sanitize "$(basename "$img")")}"
+mount_dir="$(mnt_path ext4 "$name")"
+
+if [[ "$(os)" == "linux" ]]; then
+  cat >&2 <<EOF
+ext4 images can be mounted natively on Linux; ext4fuse is not needed here.
+Example:
+  sudo mkdir -p "$mount_dir"
+  sudo mount -o loop,ro "$img" "$mount_dir"
+EOF
+  exit 1
+fi
+
+need ext4fuse
+ensure_dir "$mount_dir"
+
+echo "→ mounting ext4 $img → $mount_dir"
+sudo ext4fuse -o "$EXT4FUSE_OPTS" "$img" "$mount_dir"
+echo "✓ mounted at $mount_dir"
+EXT4
+chmod +x "$PREFIX/mnt-ext4"
+
 # ---------------- mnt-arc ----------------
 cat > "$PREFIX/mnt-arc" <<'ARC'
 #!/usr/bin/env bash
@@ -305,7 +349,7 @@ EOF
 
 umnt_all(){
   local root d
-  for sub in ssh sqfs arc; do
+  for sub in ssh sqfs ext4 arc; do
     root="${MNT_BASE}/${sub}"
     [[ -d "$root" ]] || continue
     shopt -s nullglob
@@ -348,6 +392,9 @@ echo
 echo "# sqfs"
 list_mounts sqfs "$verbose" || true
 echo
+echo "# ext4"
+list_mounts ext4 "$verbose" || true
+echo
 echo "# arc"
 list_mounts arc "$verbose" || true
 LS
@@ -385,14 +432,14 @@ usage(){ cat <<EOF
 Usage:
   mnt-clean
 Removes EMPTY and NOT-MOUNTED leaf directories under:
-  \$MNT_BASE/{ssh,sqfs,arc}
+  \$MNT_BASE/{ssh,sqfs,ext4,arc}
 EOF
 }
 
 [[ "${1:-}" == "-h" || "${1:-}" == "--help" ]] && { usage; exit 0; }
 
 removed=0
-for sub in ssh sqfs arc; do
+for sub in ssh sqfs ext4 arc; do
   root="${MNT_BASE}/${sub}"
   [[ -d "$root" ]] || continue
   shopt -s nullglob
@@ -421,7 +468,7 @@ if [[ "${MISSING}" == "1" ]]; then
   else
     echo "  macOS:"
     echo "    brew install macfuse"
-    echo "    brew install gromgit/fuse/sshfs-mac gromgit/fuse/squashfuse-mac"
+    echo "    brew install gromgit/fuse/sshfs-mac gromgit/fuse/squashfuse-mac gromgit/fuse/ext4fuse-mac"
     echo "    brew install gromgit/fuse/archivemount-mac gromgit/fuse/ratarmount-mac"
     echo "    brew install gromgit/fuse/fuse-zip-mac"
   fi
@@ -435,6 +482,7 @@ esac
 echo "Done. Try:"
 echo "  mnt-sshfs user@host:/dir"
 echo "  mnt-sqfs ~/images/data.sqfs"
+echo "  mnt-ext4 ~/images/disk.ext4"
 echo "  mnt-arc  ~/archives/backup.tar.zst"
 echo "  mnt-ls --verbose"
 echo '  cd "$(mnt-open NAME)"'

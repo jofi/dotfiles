@@ -13,5 +13,8 @@ echo
 echo "# sqfs"
 list_mounts sqfs "$verbose" || true
 echo
+echo "# ext4"
+list_mounts ext4 "$verbose" || true
+echo
 echo "# arc"
 list_mounts arc "$verbose" || true

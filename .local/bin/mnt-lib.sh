@@ -5,6 +5,7 @@ set -euo pipefail
 MNT_BASE="${MNT_BASE:-$HOME/mnt}"
 SSHFS_OPTS="${SSHFS_OPTS:-reconnect,ServerAliveInterval=15,ServerAliveCountMax=3,sshfs_sync,workaround=rename,cache=yes}"
 SQUASHFUSE_OPTS="${SQUASHFUSE_OPTS:-ro,allow_other}"
+EXT4FUSE_OPTS="${EXT4FUSE_OPTS:-allow_other}"
 ARCHIVEMOUNT_OPTS="${ARCHIVEMOUNT_OPTS:-ro}"
 RATARMOUNT_OPTS="${RATARMOUNT_OPTS:---foreground}"
 
@@ -98,11 +99,11 @@ print_status_line(){
   fi
 }
 
-# List mounts under a category (ssh|sqfs|arc).
+# List mounts under a category (ssh|sqfs|ext4|arc).
 list_mounts(){
   local sub="${1:-}" verbose="${2:-0}"
   if [[ -z "$sub" ]]; then
-    echo "list_mounts: missing argument (expected: ssh|sqfs|arc)" >&2
+    echo "list_mounts: missing argument (expected: ssh|sqfs|ext4|arc)" >&2
     return 2
   fi
   local root="${MNT_BASE}/${sub}"
@@ -123,13 +124,13 @@ list_mounts(){
   done
 }
 
-# Resolve a name to a full mount path (ssh/sqfs/arc). Prints the first match.
+# Resolve a name to a full mount path (ssh/sqfs/ext4/arc). Prints the first match.
 resolve_mount_path(){
   local name="${1:-}"
   [[ -n "$name" ]] || return 1
   local sname; sname="$(sanitize "$name")"
   local d
-  for sub in ssh sqfs arc; do
+  for sub in ssh sqfs ext4 arc; do
     d="$(mnt_path "$sub" "$sname")"
     if [[ -e "$d" ]]; then
       echo "$d"
