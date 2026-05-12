@@ -58,7 +58,7 @@ DISABLE_AUTO_UPDATE="true"
 # Example format: plugins=(rails git textvim ruby lighthouse)
 
 #plugins=(git python nvm git_jofi ssh-agent system_jofi)
-plugins=(git ssh-agent direnv)
+plugins=(git direnv)
 
 #zstyle :omz:plugins:ssh-agent agent-forwarding on
 source $ZSH/oh-my-zsh.sh
