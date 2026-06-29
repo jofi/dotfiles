@@ -1,4 +1,8 @@
 alias df='df -h'
+
+# Override oh-my-zsh git plugin: add full date to graph log
+alias glog='git log --graph --decorate --format="%C(yellow)%h%Creset %C(auto)%d%Creset %s %C(cyan)%ad%Creset [%C(blue)%an%Creset]" --date=format:"%Y-%m-%d %H:%M"'
+alias gloga='glog --all'
 alias du='du -sh'
 #alias reload!='. ~/.zshrc'
 alias reload!='exec zsh'
