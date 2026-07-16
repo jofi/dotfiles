@@ -1,0 +1,36 @@
+#!/usr/bin/env bash
+# wsq2img — convert between WSQ and raster formats (PNG/BMP/JPG/TIF...).
+#
+#   wsq2img in.wsq out.png     # decode WSQ -> raster
+#   wsq2img in.png out.wsq     # encode raster -> WSQ
+#
+# Direction is inferred from the extensions. Runs the amd64 `wsqtool` container
+# (the wsq codec segfaults natively on macOS/arm64). Relative paths resolve
+# against the current directory; absolute paths also work.
+set -euo pipefail
+
+if [[ $# -ne 2 ]]; then
+  echo "usage: wsq2img <input> <output>" >&2
+  exit 2
+fi
+
+in_path=$1
+out_path=$2
+
+if [[ ! -f "$in_path" ]]; then
+  echo "wsq2img: input not found: $in_path" >&2
+  exit 1
+fi
+
+# Resolve the input's directory and the output's directory to absolute paths,
+# mount each into the container, and reference the files by basename.
+in_dir=$(cd "$(dirname "$in_path")" && pwd)
+in_file=$(basename "$in_path")
+out_dir=$(cd "$(dirname "$out_path")" && pwd)
+out_file=$(basename "$out_path")
+
+docker run --rm --platform linux/amd64 \
+  -v "$in_dir":/in:ro \
+  -v "$out_dir":/out \
+  --entrypoint python \
+  wsqtool:latest /usr/local/bin/wsqconv.py "/in/$in_file" "/out/$out_file"
